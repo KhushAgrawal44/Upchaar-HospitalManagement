@@ -11,59 +11,41 @@ import { Typography } from "@mui/material";
 
 export default function Patients() {
   const [patientsData, setpatientsData] = React.useState([]);
-
-  const myData = [
-    {
-      id:1,
-      patientName: "Khush Agrawal",
-      doctorName:"Dr Sandip Jain",
-      doctorFee:"1000",
-      date:"12/1/2023",
-      phone: "+91 9307479698",
-      email: "ka@gmail.com",
-      fee:'1000',
-      age: '22',
-      salary: '119609',
-      specialist:'Surgery',
-      isActive: false,
-      time:'8pm-10pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "Aurangabad",
-    },
-    {
-      id:2,
-      patientName: "Ayushi Hota",
-      doctorName:"Dr Amit Jain",
-      doctorFee:"1200",
-      date:"19/1/2023",
-      phone: "+91 6363636363",
-      email: "ayu@gmail.com",
-      fee:'1500',
-      age: '28',
-      salary: '118542',
-      specialist:'Radiology',
-      isActive: false,
-      time:'9pm-11pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "UP",
-    },
-   
-  ]
  
   React.useEffect(() => {
-    fetch("http://localhost:5000/appointments")
-      .then((res) => res.json())
-      .then((patientsData) => setpatientsData(patientsData));
-      setpatientsData(myData)
+    
+    const fetchData = async() =>
+    {
+     const result = await fetch("https://upchaar-backend.herokuapp.com/api/appointments")
+     const jsonResult = await result.json()
+ 
+     setpatientsData(jsonResult)
+    }
+    fetchData()
   }, []);
+  
+
+  const handleDelete = (id) => {
+    fetch(`https://upchaar-backend.herokuapp.com/api/appointment/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result) {
+          alert("Treated Successfully");
+          setpatientsData((current) =>
+      current.filter((item) => item._id !== id)
+    );
+        }
+      });
+
+  };
 
   return (
     <TableContainer component={Paper}>
       {
         <Typography variant="h6" sx={{ my: 3 }}>
-          Total available Doctors: {patientsData.length}
+          Total available Patients: {patientsData.length}
         </Typography>
       }
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -73,17 +55,18 @@ export default function Patients() {
               Patient Name
             </TableCell>
             <TableCell align="center">Doctor Name</TableCell>
-            <TableCell align="center">Fee</TableCell>
+        
             <TableCell align="center">Patient's Phone</TableCell>
             <TableCell align="center">Appointment Date</TableCell>
             <TableCell align="center">Gender</TableCell>
             <TableCell align="center">View More</TableCell>
+            <TableCell align="center">Treatment Completed</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {patientsData.map((patientsData) => (
             <TableRow
-              key={patientsData.patientName}
+              key={patientsData._id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell
@@ -91,11 +74,11 @@ export default function Patients() {
                 scope="row"
                 style={{ borderRight: "1px solid #ccc" }}
               >
-                {patientsData.patientName}
+                {patientsData.name}
               </TableCell>
-              <TableCell align="center">{patientsData.doctorName}</TableCell>
-              <TableCell align="center">{patientsData.doctorFee}</TableCell>
-              <TableCell align="center">{patientsData.phone}</TableCell>
+              <TableCell align="center">{patientsData.doctersname}</TableCell>
+             
+              <TableCell align="center">{patientsData.phoneNo}</TableCell>
               <TableCell align="center">{patientsData.date}</TableCell>
               <TableCell align="center">{patientsData.gender.toUpperCase()}</TableCell>
               {/* <TableCell align="center">{patientsData.phone}</TableCell> */}
@@ -119,6 +102,27 @@ export default function Patients() {
                     />
                   </NavLink>
                 </form>
+              </TableCell>
+             
+              <TableCell align="center">
+                <input
+                  style={{
+                    color: "#FFF",
+                    background: "#000",
+                    padding: "10px 15px",
+                    cursor: "pointer",
+                    border: "none",
+                    borderRadius: "5px",
+                    backgroundColor: "#648ADA",
+                  }}
+                  onClick={() => {
+                    handleDelete(patientsData._id);
+                  }}
+                  id="submit"
+                  type="submit"
+                  name="delete"
+                  value="DONE"
+                />
               </TableCell>
             </TableRow>
           ))}

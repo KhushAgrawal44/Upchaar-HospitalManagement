@@ -60,31 +60,31 @@ const AddDoctor = () => {
     const formData = new FormData(e.target);
     const name = formData.get("name");
     const email = formData.get("email");
-    const phone = formData.get("phone");
-    const fee = formData.get("fee");
+    const phoneNo = formData.get("phoneNo");
+    const fees = formData.get("fees");
     const age = formData.get("age");
-    const specialist = formData.get("specialist");
+    const speciality = formData.get("speciality");
     const address = formData.get("address");
     const salary = formData.get("salary");
-    const time = formData.get("time");
+    const availableTime = formData.get("availableTime");
     const gender = formData.get("gender");
     const picture = formData.get("image");
     const degrees = formData.get("degrees");
     const data = {
       name,
-      phone,
+      phoneNo,
       email,
-      fee,
+      fees,
       age,
-      specialist,
+      speciality,
       address,
       degrees,
       salary,
-      time,
+      availableTime,
       date,
       gender
     }; // picture
-    fetch("http://localhost:5000/doctors", {
+    fetch("https://upchaar-backend.herokuapp.com/api/doctor/create", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -155,28 +155,28 @@ const AddDoctor = () => {
               fullWidth
             />
           </Grid>
-          {/* Phone */}
+          {/* phoneNo */}
           <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">Phone</Typography>
+            <Typography variant="OVERLINE TEXT">phoneNo</Typography>
           </Grid>
           <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
             <TextField
               id="standard-basic"
               label="Enter number"
-              name="phone"
+              name="phoneNo"
               required
               fullWidth
             />
           </Grid>
-          {/* Fees */}
+          {/* feess */}
           <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">Fees</Typography>
+            <Typography variant="OVERLINE TEXT">feess</Typography>
           </Grid>
           <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
             <TextField
               id="standard-basic"
-              label="Set Fees"
-              name="fee"
+              label="Set feess"
+              name="fees"
               required
               fullWidth
             />
@@ -194,15 +194,15 @@ const AddDoctor = () => {
               fullWidth
             />
           </Grid>
-          {/* Specialist */}
+          {/* speciality */}
           <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">Specialist</Typography>
+            <Typography variant="OVERLINE TEXT">speciality</Typography>
           </Grid>
           <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
             <TextField
               id="standard-basic"
               label="Speciality"
-              name="specialist"
+              name="speciality"
               required
               fullWidth
             />
@@ -277,13 +277,13 @@ const AddDoctor = () => {
           </Grid>
           {/* available date */}
           <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">Available Time</Typography>
+            <Typography variant="OVERLINE TEXT">Available availableTime</Typography>
           </Grid>
           <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
             <TextField
               id="standard-basic"
               label="Eg: 8pm-10pm"
-              name="time"
+              name="availableTime"
               required
               fullWidth
             />

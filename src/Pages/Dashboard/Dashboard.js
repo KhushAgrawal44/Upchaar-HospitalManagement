@@ -209,7 +209,7 @@ export default function NewHeader() {
                                     </ListItemButton>
                                 </ListItem>
                             </NavLink>
-                            <NavLink to="/updateDoctor" style={{ textDecoration: 'none', width: '100%', color: '#000' }}>
+                           {/* <NavLink to="/updateDoctor" style={{ textDecoration: 'none', width: '100%', color: '#000' }}>
                                 <ListItem disablePadding>
                                     <ListItemButton style={{borderRadius:'0 40px 40px 0'}}>
                                         <ListItemIcon>
@@ -218,7 +218,7 @@ export default function NewHeader() {
                                         <ListItemText primary="Find Doctor" style={{marginLeft:'-1rem'}} />
                                     </ListItemButton>
                                 </ListItem>
-                            </NavLink>
+                            </NavLink>*/}
                         </TreeItem>
                     </TreeView>
                     {/* Only for patients */}

@@ -50,7 +50,7 @@ const AddPatient = () => {
   const [date, setDate] = React.useState(new Date().toDateString()); // take only date not time
 
   const [file, setFile] = useState(null);
-  const [prepscription, setPrepscription] = useState(null);
+ 
   const [error, setError] = useState(null);
 
   const types = ["application/pdf", "text/plain"];
@@ -66,10 +66,7 @@ const AddPatient = () => {
     }
   };
 
-  const prescriptionHandler = (event) => {
-    let selected = event.target.files[0];
-    setPrepscription(selected);
-  };
+  
   // const handleChange = (event) => {
   //   const {
   //     target: { value },
@@ -111,53 +108,37 @@ const AddPatient = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const patientName = formData.get("name");
-    const phone = formData.get("phone");
+    const name = formData.get("name");
+    const phoneNo = formData.get("phoneNo");
     const age = formData.get("age");
     const weight = formData.get("weight");
     const SelectedPackage = packageName;
     const address = formData.get("address");
     const medicalHistory = formData.get("medicalHistory");
     const gender = formData.get("radio-buttons-group");
-    const blood = formData.get("blood");
+    const bloodGroup = formData.get("bloodGroup");
     const doctorName = doctorInfo.name;
     const doctorEmail = doctorInfo.email;
-    const doctorPhone = doctorInfo.phone;
+    const doctorphoneNo = doctorInfo.phoneNo;
     const doctorFee = doctorInfo.fee;
     const data = {
+      name,
+      phoneNo,
       doctorName,
       doctorEmail,
-      doctorPhone,
+      doctorphoneNo,
       doctorFee,
-      patientName,
-      phone,
       age,
       weight,
       address,
       medicalHistory,
-      // file upload needed
-      // SelectedPackage,
-      // file,
-      // prepscription,
       gender,
-      blood,
+      bloodGroup,
       date,
     };
-    // console.log(
-    //   name,
-    //   phone,
-    //   age,
-    //   weight,
-    //   SelectedPackage,
-    //   address,
-    //   medicalHistory,
-    //   file,
-    //   prepscription,
-    //   gender,
-    //   email,
-    //   value
-    // );
-    fetch("http://localhost:5000/appoinments", {
+    console.log(data)
+   
+    fetch("https://upchaar-backend.herokuapp.com/api/appointment/create", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -189,20 +170,7 @@ const AddPatient = () => {
             Doctors List
           </NavLink>
         </Button>
-        {/* Package button */}
-        {/* {<Button
-          variant="contained"
-          sx={{ ml: 2, fontWeight: 700 }}
-          color="warning"
-        >
-          <NavLink
-            to="/packages"
-            style={{ textDecoration: "none", width: "100%", color: "#fff" }}
-          >
-            Our Packages
-          </NavLink>
-        </Button>} */}
-        {/* selected doctor info button */}
+       
         <Button
           variant="contained"
           sx={{ ml: 2, fontWeight: 700 }}
@@ -242,17 +210,17 @@ const AddPatient = () => {
               name="name"
             />
           </Grid>
-          {/* Phone */}
+          {/* phoneNo */}
           <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">PHONE</Typography>
+            <Typography variant="OVERLINE TEXT">phoneNo</Typography>
           </Grid>
           <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
             <TextField
               id="standard-basic"
-              label="Enter phone number"
+              label="Enter phoneNo number"
               required
               fullWidth
-              name="phone"
+              name="phoneNo"
             />
           </Grid>
           {/* Age */}
@@ -297,46 +265,7 @@ const AddPatient = () => {
             }}
           >
             <Calender value={date} setValue={setDate} />
-            {/* <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="OVERLINE TEXT">PACKAGE</Typography>
-              <Select
-                labelId="demo-multiple-chip-label"
-                id="demo-multiple-chip"
-                multiple
-                value={packageName}
-                onChange={handleChange}
-                variant="standard"
-                fullWidth
-                name="package"
-                sx={{ ml: 1 }}
-                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip key={value} label={value} />
-                    ))}
-                  </Box>
-                )}
-                MenuProps={MenuProps}
-              >
-                {packages.map((name) => (
-                  <MenuItem
-                    key={name}
-                    value={name}
-                    style={getStyles(name, packageName, theme)}
-                  >
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box> */}
+            
           </Grid>
           {/* Address */}
           <Grid item xs={12} md={4}>
@@ -368,17 +297,7 @@ const AddPatient = () => {
               name="medicalHistory"
             />
           </Grid>
-          {/* Test Report */}
-          {/* <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">TEST REPORT</Typography>
-          </Grid>
-          <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
-            <input type="file" onChange={changeHandler} accept=".pdf, .txt" />
-            <div className="output">
-              {error && <div className="error">{error}</div>}
-            </div>
-          </Grid> */}
-          {/* gender */}
+         
           <Grid item xs={12} md={4}>
             <Typography variant="OVERLINE TEXT">GENDER</Typography>
           </Grid>
@@ -418,26 +337,7 @@ const AddPatient = () => {
               <FormControlLabel value="AB-" control={<Radio />} label="AB-" />
             </RadioGroup>
           </Grid>
-          {/* PREPSCRIPTION  */}
-          {/* <Grid item xs={12} md={4}>
-            <Typography variant="OVERLINE TEXT">ADD PREPSCRIPTION</Typography>
-          </Grid>
-          <Grid item xs={12} md={8} sx={{ marginLeft: { md: "-5rem" } }}>
-            <Fab color="primary" aria-label="PREPSCRIPTION">
-              <input
-                type="file"
-                onChange={prescriptionHandler}
-                style={{
-                  width: "4rem",
-                  paddingTop: "30px",
-                  opacity: 0,
-                  zIndex: 100,
-                  cursor: "pointer",
-                }}
-              />
-              <AddIcon style={{ position: "absolute" }} />
-            </Fab>
-          </Grid> */}
+          
           <Grid item xs={12} md={4}>
             <Typography variant="OVERLINE TEXT">DECISION</Typography>
           </Grid>

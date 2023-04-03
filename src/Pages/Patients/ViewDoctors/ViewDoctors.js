@@ -10,105 +10,19 @@ import { NavLink } from "react-router-dom";
 
 const ViewDoctors = () => {
   const [doctors, setDoctors] = React.useState([]);
-  const myData = [
-    {
-      id:1,
-      name: "Dr Sandip Jain",
-      phone: "+91 8474646463",
-      email: "sandip.jain@gmail.com",
-      fee:'1000',
-      age: '22',
-      salary: '119609',
-      specialist:'Surgery',
-      isActive: false,
-      time:'8pm-10pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "Bhopal Hospital",
-    },
-    {
-      id:2,
-      name: "Dr Rakesh Verma",
-      phone: "+91 6363738383",
-      email: "raky@gmail.com",
-      fee:'1500',
-      age: '28',
-      salary: '118542',
-      specialist:'Radiology',
-      isActive: false,
-      time:'9pm-11pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "Bhopal Hospital",
-    },
-    {
-      id:3,
-      name: "Dr M Gulati",
-      phone: "+91 8488939020",
-      email: "m.gulati@gmail.com",
-      fee:'800',
-      age: '40',
-      salary: '109030',
-      specialist:'Anesthesiology',
-      isActive: true,
-      time:'8am-10am',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "Bhopal Hospital",
-    },
-    {
-      id:4,
-      name: "Dr Amit Jain",
-      phone: "+91 837379092",
-      email: "amit.j@gmail.com",
-      fee:'1000',
-      age: '21',
-      salary: '65303',
-      specialist:'Anesthesiology',
-      isActive: true,
-      time:'8pm-10pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "Bhopal Hospital",
-    },
-    {
-      id:5,
-      name: "Dr Swati Singh",
-      phone: "+91 9876345634",
-      email: "swati@gmail.com",
-      fee:'1000',
-      age: '39',
-      salary: '67097',
-      specialist:'Children',
-      isActive: true,
-      time:'8pm-10pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "Bhopal Hospital",
-    },
-    {
-      id:6,
-      name: "Dr vaibhavi Patel",
-      phone: "+91 7083567823",
-      email: "vai@gmail.com",
-      fee:'500',
-      age: '20',
-      salary: '54398',
-      specialist:'Women',
-      isActive: true,
-      time:'8pm-10pm',
-      picture: "http://placehold.it/32x32",
-      gender: "male",
-      address: "465 Gerald Court, Marne, Wyoming, 9714",
-    },
-  ]
- 
+
   React.useEffect(() => {
-    fetch("http://localhost:5000/doctors")
-      .then((res) => res.json())
-      .then((data) => setDoctors(data));
-      setDoctors(myData)
+    
+    const fetchData = async() =>
+    {
+     const result = await fetch("https://upchaar-backend.herokuapp.com/api/doctors")
+     const jsonResult = await result.json()
+ 
+     setDoctors(jsonResult)
+    }
+    fetchData()
   }, []);
+  
   return (
     <div>
       <h3 style={{ marginTop: "1rem", textAlign: "left" }}>
@@ -133,7 +47,7 @@ const ViewDoctors = () => {
       >
         {doctors.map((doctor) => (
           <NavLink
-            to={"/addPatient/" + doctor.email}
+            to={"/addPatient/" + doctor._id}
             style={{
               textDecoration: "none",
               display: "flex",
@@ -158,14 +72,14 @@ const ViewDoctors = () => {
                     color="text.secondary"
                     sx={{ mb: 1 }}
                   >
-                    SPECIALITY: {doctor.specialist.toUpperCase()}
+                    SPECIALITY: {doctor.speciality.toUpperCase()}
                   </Typography>
                   <Typography
                     variant="body2"
                     color="text.secondary"
                     sx={{ mb: 1 }}
                   >
-                    FEE: {doctor.fee ? doctor.fee : "Free"} TK
+                    FEE: {doctor.fees ? doctor.fees : "Free"} TK
                   </Typography>
                   <Typography
                     variant="body2"
@@ -185,7 +99,7 @@ const ViewDoctors = () => {
                 }}
               >
                 <AccessTimeIcon sx={{ mr: 2 }} />
-                <Typography> {doctor.time}</Typography>
+                <Typography> {doctor.availableTime}</Typography>
               </CardActions>
             </Card>
           </NavLink>

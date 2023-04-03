@@ -104,10 +104,15 @@ import { Typography } from "@mui/material"
 export default function PatientViewDoctor() {
   const [data, setData] = React.useState([]);
   React.useEffect(() => {
-   setData(myData)
-  // fetch("http://localhost:5000/doctors")
-  //   .then((res) => res.json())
-  //   .then((data) => setData(data));
+   
+   const fetchData = async() =>
+   {
+    const result = await fetch("https://upchaar-backend.herokuapp.com/api/doctors")
+    const jsonResult = await result.json()
+
+    setData(jsonResult)
+   }
+   fetchData()
       
   }, []);
 
@@ -145,10 +150,10 @@ export default function PatientViewDoctor() {
               >
                 {doctorData.name}
               </TableCell>
-              <TableCell align="center" style={{ borderRight: "1px solid #ccc" }}>{doctorData.specialist}</TableCell>
-              <TableCell align="center">{doctorData.time}</TableCell>
-              <TableCell align="center">{doctorData.fee}</TableCell>
-              <TableCell align="center">{doctorData.phone}</TableCell>
+              <TableCell align="center" style={{ borderRight: "1px solid #ccc" }}>{doctorData.speciality}</TableCell>
+              <TableCell align="center">{doctorData.availableTime}</TableCell>
+              <TableCell align="center">{doctorData.fees}</TableCell>
+              <TableCell align="center">{doctorData.phoneNo}</TableCell>
               <TableCell align="center">{doctorData.gender}</TableCell>
               <TableCell align="center">
                 <NavLink to={`/addPatient/${doctorData.email}`}>
